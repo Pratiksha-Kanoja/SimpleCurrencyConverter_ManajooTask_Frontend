@@ -4,20 +4,24 @@ import './App.css'
 
 function App() {
     const [currencies, setCurrencies] = useState([]);
-    const [sourceCrypto, setSourceCrypto] = useState('');
+    const [sourceCrypto, setSourceCrypto] = useState('bitcoin');
     const [amount, setAmount] = useState('');
-    const [targetCurrency, setTargetCurrency] = useState('USD');
+    const [targetCurrency, setTargetCurrency] = useState('btc');
     const [convertedAmount, setConvertedAmount] = useState(null);
 
     useEffect(() => {
-        axios.get('https://currancy-converter.onrender.com/api/currencies')
+        axios.get('http://localhost:3001/api/currencies',{
+            headers: {
+            'X-CMC_PRO_API_KEY': '3e6d3374-262e-4cca-9e14-49510e254b18',
+          }})
             .then(response => setCurrencies(response.data))
             .catch(error => console.error(error));
     }, []);
 
     const handleConvert = () => {
+        console.log("hello",sourceCrypto,amount,targetCurrency)
         if (sourceCrypto && amount) {
-            axios.get('http://currancy-converter.onrender.com/api/convert', {
+            axios.get('http://localhost:3001/api/convert', {
                 params: {
                     sourceCrypto,
                     amount,
@@ -27,6 +31,7 @@ function App() {
                 .then(response => setConvertedAmount(response.data.convertedAmount))
                 .catch(error => console.error(error));
         }
+       
     };
 
     return (
@@ -51,13 +56,13 @@ function App() {
                     <label className='label'>
                         Target Currency:
                         <select value={targetCurrency} onChange={(e) => setTargetCurrency(e.target.value)}>
-                            <option value="USD">USD</option>
-                            <option value="EUR">EUR</option>
+                            <option value="btc">BTC</option>
+                            <option value="eth">ETH</option>
                             {/* Add more currencies if needed */}
                         </select>
                     </label>
                     <br />
-                    <button type="button" onClick={handleConvert} className='bttn'>
+                    <button type="button" onClick={()=>handleConvert()} className='bttn'>
                         Convert
                     </button>
                 </form>
