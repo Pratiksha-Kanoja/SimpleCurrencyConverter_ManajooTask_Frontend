@@ -10,7 +10,7 @@ function App() {
     const [convertedAmount, setConvertedAmount] = useState(null);
 
     useEffect(() => {
-        axios.get('http://localhost:3001/api/currencies',{
+        axios.get('https://currancy-converter.onrender.com/api/currencies',{
             headers: {
             'X-CMC_PRO_API_KEY': '3e6d3374-262e-4cca-9e14-49510e254b18',
           }})
@@ -21,7 +21,7 @@ function App() {
     const handleConvert = () => {
         console.log("hello",sourceCrypto,amount,targetCurrency)
         if (sourceCrypto && amount) {
-            axios.get('http://localhost:3001/api/convert', {
+            axios.get('https://currancy-converter.onrender.com/api/convert', {
                 params: {
                     sourceCrypto,
                     amount,
